@@ -251,17 +251,22 @@ If the file extension is omitted, it is auto-completed to the correct extension 
 
   The bundle identifier to use in the application helper's plist.
 
-`sign` - *String*
+`osx-sign` - *Object*
 
-  The identity used when signing the package via `codesign`. (Only for when XCode is present on the host platform.)
+  Properties used by [`electron-osx-sign`](https://github.com/electron-userland/electron-osx-sign)(Only for when XCode is present on the host platform).
 
-`sign-entitlements` - *String*
+  - `identity` - *String*
+  The identity used when signing the package via `codesign`. 
 
-  The path to the 'parent' entitlements used in signing. (Only for when XCode is present on the host platform.)
+  - `entitlements` - *String*
+  The path to the 'parent' entitlements used in signing.
 
-`sign-entitlements-inherit` - *String*
+  - `entitlements-inherit` - *String*
+  The path to the 'child' entitlements.
 
-  The path to the 'child' entitlements. See [electron-osx-sign](https://www.npmjs.com/package/electron-osx-sign#opts) for more details. (Only for when XCode is present on the host platform.)
+  - `binaries` - *Array*
+  Paths to additional binaries that will be signed along with built-ins of Electron. Default to null.
+
 
 ***Windows targets only***
 

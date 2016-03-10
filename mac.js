@@ -153,7 +153,8 @@ module.exports = {
         mv(path.dirname(contentsPath), finalAppPath, cb)
       })
 
-      if (opts.sign) {
+      var signOpts = opts['osx-sign']
+      if (signOpts) {
         operations.push(function (cb) {
           sign({
             app: finalAppPath,
@@ -162,9 +163,10 @@ module.exports = {
             // Provided in command line --sign, opts.sign will be recognized
             // as boolean value true. Then fallback to null for auto discovery,
             // otherwise provided signing certificate.
-            identity: opts.sign === true ? null : opts.sign,
-            entitlements: opts['sign-entitlements'],
-            'entitlements-inherit': opts['sign-entitlements-inherit']
+            identity: signOpts.identity === true ? null : signOpts.identity,
+            entitlements: signOpts['entitlements'],
+            'entitlements-inherit': signOpts['entitlements-inherit'],
+            binaries: signOpts.binaries
           }, function (err) {
             if (err) {
               console.warn('Code sign failed; please retry manually.', err)
