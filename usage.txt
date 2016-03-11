@@ -38,8 +38,9 @@ app-category-type  the application category type
 extend-info        a plist file to append to the app plist
 extra-resource     a file to copy into the app's Contents/Resources
 helper-bundle-id   bundle identifier to use in the app helper plist
-osx-sign           a list of sub-properties used to configure signing OS X apps (OS X host platform only).
-                   They are specified via dot notation, e.g. --osx-sign.identity="My Name"
+osx-sign           (OSX host platform only) Whether to sign the OSX app packages. You can either
+                   pass --osx-sign to enable with the default configuration, or use dot notation
+                   to configure a list of sub-properties, e.g. --osx-sign.identity="My Name"
 
                    Properties supported:
                    - identity: should contain the identity to be used when running `codesign`

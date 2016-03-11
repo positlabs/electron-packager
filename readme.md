@@ -251,9 +251,9 @@ If the file extension is omitted, it is auto-completed to the correct extension 
 
   The bundle identifier to use in the application helper's plist.
 
-`osx-sign` - *Object*
+`osx-sign` - *Object* or *true*
 
-  Object (also known as a "hash") of options specific to signing apps when the host platform is OS X and XCode is installed. See [electron-osx-sign](https://www.npmjs.com/package/electron-osx-sign#opts) for more detailed option descriptions.
+  If present, signs OS X target apps when the host platform is OS X and XCode is installed. When the value is `true`, pass default configuration to the signing module. The configuration values listed below can be customized when the value is an `Object`. See [electron-osx-sign](https://www.npmjs.com/package/electron-osx-sign#opts) for more detailed option descriptions and the defaults.
   - `identity` - *String*: The identity used when signing the package via `codesign`.
   - `entitlements` - *String*: The path to the 'parent' entitlements.
   - `entitlements-inherit` - *String*: The path to the 'child' entitlements.
