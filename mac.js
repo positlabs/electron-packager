@@ -153,19 +153,20 @@ module.exports = {
         mv(path.dirname(contentsPath), finalAppPath, cb)
       })
 
-      if (opts.sign) {
+      var signOpts = Object.create(opts['osx-sign'])
+      if (signOpts) {
         operations.push(function (cb) {
-          sign({
-            app: finalAppPath,
-            platform: opts.platform,
-            // Take argument sign as signing identity:
-            // Provided in command line --sign, opts.sign will be recognized
-            // as boolean value true. Then fallback to null for auto discovery,
-            // otherwise provided signing certificate.
-            identity: opts.sign === true ? null : opts.sign,
-            entitlements: opts['sign-entitlements'],
-            'entitlements-inherit': opts['sign-entitlements-inherit']
-          }, function (err) {
+          // osx-sign options are handed off to sign module, but
+          // with a few additions
+          signOpts.platform = opts.platform
+          signOpts.app = finalAppPath
+          // Take argument sign as signing identity:
+          // Provided in command line --sign, opts.sign will be recognized
+          // as boolean value true. Then fallback to null for auto discovery,
+          // otherwise provided signing certificate.
+          signOpts.identity === true ? null : signOpts.identity
+
+          sign(signOpts, function (err) {
             if (err) {
               console.warn('Code sign failed; please retry manually.', err)
               // Though not signed successfully, the application is packed.
