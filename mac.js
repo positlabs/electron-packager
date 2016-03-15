@@ -33,6 +33,10 @@ function filterCFBundleIdentifier (identifier) {
   return identifier.replace(/ /g, '-').replace(/[^a-zA-Z0-9.-]/g, '')
 }
 
+function signOptsWarning(name){
+  console.warn(`WARNING: osx-sign.${name} will be inferred from main options`)
+}
+
 module.exports = {
   createApp: function createApp (opts, templatePath, callback) {
     var appRelativePath = path.join('Electron.app', 'Contents', 'Resources', 'app')
@@ -153,18 +157,34 @@ module.exports = {
         mv(path.dirname(contentsPath), finalAppPath, cb)
       })
 
-      var signOpts = Object.create(opts['osx-sign'])
-      if (signOpts) {
+      if (opts['osx-sign']) {
+        // use default sign opts if osx-sign is true, otherwise clone osx-sign object
+        var signOpts = opts['osx-sign'] === true ? {identity: null} : Object.create(opts['osx-sign'])
+
         operations.push(function (cb) {
+          
+          // user may think they can pass platform or app, but they will be ignored
+          if(signOpts.platform){
+            signOptsWarning('platform')
+          }
+          if(signOpts.app){
+            signOptsWarning('app')
+          }
+
           // osx-sign options are handed off to sign module, but
-          // with a few additions
+          // with a few additions from main options
           signOpts.platform = opts.platform
           signOpts.app = finalAppPath
+
           // Take argument sign as signing identity:
           // Provided in command line --sign, opts.sign will be recognized
           // as boolean value true. Then fallback to null for auto discovery,
           // otherwise provided signing certificate.
-          signOpts.identity === true ? null : signOpts.identity
+          if(signOpts.identity === true){
+            signOpts.identity = null
+          }
+
+          // console.log('signOpts', signOpts, signOpts.__proto__, process.cwd())
 
           sign(signOpts, function (err) {
             if (err) {
