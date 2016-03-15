@@ -157,6 +157,11 @@ module.exports = {
         mv(path.dirname(contentsPath), finalAppPath, cb)
       })
 
+
+      if((opts.platform === 'all' || opts.platform === 'mas') && opts['osx-sign'] === undefined){
+        console.warn('WARNING: signing is required for mas builds. Provide the osx-sign option, or manually sign the app later.')
+      }
+
       if (opts['osx-sign']) {
         // use default sign opts if osx-sign is true, otherwise clone osx-sign object
         var signOpts = opts['osx-sign'] === true ? {identity: null} : Object.create(opts['osx-sign'])
