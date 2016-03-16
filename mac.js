@@ -33,7 +33,7 @@ function filterCFBundleIdentifier (identifier) {
   return identifier.replace(/ /g, '-').replace(/[^a-zA-Z0-9.-]/g, '')
 }
 
-function signOptsWarning(name){
+function signOptsWarning (name) {
   console.warn(`WARNING: osx-sign.${name} will be inferred from main options`)
 }
 
@@ -157,22 +157,20 @@ module.exports = {
         mv(path.dirname(contentsPath), finalAppPath, cb)
       })
 
-
-      if((opts.platform === 'all' || opts.platform === 'mas') && opts['osx-sign'] === undefined){
+      if ((opts.platform === 'all' || opts.platform === 'mas') && opts['osx-sign'] === undefined) {
         console.warn('WARNING: signing is required for mas builds. Provide the osx-sign option, or manually sign the app later.')
       }
 
       if (opts['osx-sign']) {
         // use default sign opts if osx-sign is true, otherwise clone osx-sign object
-        var signOpts = opts['osx-sign'] === true ? {identity: null} : Object.create(opts['osx-sign'])
+        var signOpts = opts['osx-sign'] === true ? {identity: null} : Object.assign({}, opts['osx-sign'])
 
         operations.push(function (cb) {
-          
           // user may think they can pass platform or app, but they will be ignored
-          if(signOpts.platform){
+          if (signOpts.platform) {
             signOptsWarning('platform')
           }
-          if(signOpts.app){
+          if (signOpts.app) {
             signOptsWarning('app')
           }
 
@@ -185,7 +183,7 @@ module.exports = {
           // Provided in command line --sign, opts.sign will be recognized
           // as boolean value true. Then fallback to null for auto discovery,
           // otherwise provided signing certificate.
-          if(signOpts.identity === true){
+          if (signOpts.identity === true) {
             signOpts.identity = null
           }
 
@@ -194,8 +192,8 @@ module.exports = {
           sign(signOpts, function (err) {
             if (err) {
               console.warn('Code sign failed; please retry manually.', err)
-              // Though not signed successfully, the application is packed.
-              // It might have to be signed for another time manually.
+            // Though not signed successfully, the application is packed.
+            // It might have to be signed for another time manually.
             }
             cb()
           })
