@@ -173,6 +173,9 @@ module.exports = {
           if (signOpts.app) {
             signOptsWarning('app')
           }
+          if (signOpts.binaries) {
+            console.warn('WARNING: osx-sign.binaries signing will fail. Sign manually, or with electron-osx-sign.')
+          }
 
           // osx-sign options are handed off to sign module, but
           // with a few additions from main options

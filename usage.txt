@@ -46,7 +46,6 @@ osx-sign           (OSX host platform only) Whether to sign the OSX app packages
                    - identity: should contain the identity to be used when running `codesign`
                    - entitlements: the path to entitlements used in signing
                    - entitlements-inherit: the path to the 'child' entitlements
-                   - binaries: Paths to additional binaries to sign.
 
 * win32 target platform only *
 

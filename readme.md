@@ -257,7 +257,6 @@ If the file extension is omitted, it is auto-completed to the correct extension 
   - `identity` - *String*: The identity used when signing the package via `codesign`.
   - `entitlements` - *String*: The path to the 'parent' entitlements.
   - `entitlements-inherit` - *String*: The path to the 'child' entitlements.
-  - `binaries` - *Array*: Paths to additional binaries to sign.
 
 ***Windows targets only***
 
